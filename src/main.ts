@@ -3,15 +3,13 @@ var Ip: string = "";
 var Port: string = "";
 var UserName: string;
 const socket = new WebSocket(`wss://${Ip}:${Port}`, "ChatApp")
-
+type ChatMessage = {message: string, user: string}
 // Connection opened
 socket.addEventListener('open', function (event) {
     socket.send(UserName)
 });
 
-function get_message(event) {
-    console.log('Message from server ', event.data)
-    event.data["message"]
+function get_message(message: ChatMessage) {
 }
 
 function send_message(message: string) {

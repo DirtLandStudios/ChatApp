@@ -1,30 +1,24 @@
-import * as express from 'express';
-import * as http from 'http';
-import * as WebSocket from 'ws';
+import express = require('express')
+const ws = require('ws')
+const https = require('https')
 
-const app = express();
+type ChatMessage = {message: string, user: string}
+// Set up a headless websocket server that prints any
+// events that come in.
+var ChatPort = 8999;
+const wss = new ws.WebSocketServer({ port: ChatPort })
+var Users: string[]
 
-//initialize a simple http server
-const server = http.createServer(app);
-
-//initialize the WebSocket server instance
-const wss = new WebSocket.Server({ server });
-
-wss.on('connection', (ws: WebSocket) => {
-
-	//connection is up, let's add a simple simple event
-	ws.on('message', (message: string) => {
-
-		//log the received message and send it back to the client
-		console.log('received: %s', message);
-		ws.send(`Hello, you sent -> ${message}`);
+wss.on('connection', function connection(ws) {
+  ws.on('message', function message(data: ChatMessage) {
+    console.log('received: %s', data)
+	Users.forEach(user => {
+		ws.send(data)
 	});
+  });
 
-	//send immediatly a feedback to the incoming connection    
-	ws.send('Hi there, I am a WebSocket server');
+  
 });
-var port = 8999;
-//start our server
-server.listen(port, () => {
-	console.log(`Server started on port ${port} :)`);
-});
+
+https.listen(ChatPort)
+//https://www.npmjs.com/package/ws#multiple-servers-sharing-a-single-https-server
