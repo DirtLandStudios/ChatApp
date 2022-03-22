@@ -1,6 +1,6 @@
 // Create WebSocket connection.
-var Ip: string;
-var Port: string;
+var Ip: string = "";
+var Port: string = "";
 var UserName: string;
 const socket = new WebSocket(`wss://${Ip}:${Port}`, "ChatApp")
 
