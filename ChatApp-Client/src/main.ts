@@ -12,8 +12,9 @@ socket.addEventListener('open', function (event) {
 function get_message(message: Event) {
 }
 
-function send_message(message: string) {
-    socket.send(message)
+function send_message(_message: string) {
+    var Chatmessage: ChatMessage = {message: _message, user: UserName}
+    socket.send(JSON.stringify(Chatmessage))
 }
 
 // Listen for messages
