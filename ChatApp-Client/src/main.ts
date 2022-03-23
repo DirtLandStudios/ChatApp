@@ -9,7 +9,7 @@ socket.addEventListener('open', function (event) {
     socket.send(UserName)
 });
 
-function get_message(message: ChatMessage) {
+function get_message(message: Event) {
 }
 
 function send_message(message: string) {
