@@ -5,21 +5,36 @@
         body {
             background: lightblue;
         }
+        input[type=text] {
+            width: 90%;
+            height: 30px;
+            border: 2px black;
+            border-radius: 20px;
+            position: absolute;
+            bottom: 10px ;
+            left: 20px;
+            font-family: tahoma;
+        }
         .button {
-            background-color: #4CAF50;
-            border-radius: 2px;
+            background-color: #4CAF50; /* Green */
+            border: 2px darkgreen;
+            border-radius: 10px;
+            color: white;
+            padding: 15px 32px;
             text-align: center;
             text-decoration: none;
-            cursor: pointer;
-            font-size: 50px;
-            font-family: Tahoma;
+            display: inline-block;
+            font-size: 16px;
+            position:absolute;
+            bottom:5px;
+            right: 20px;
         }
         </style>
     </head>
 <body>
 <ul id "mess"></ul>
 <input id="textbox" type="text">
-<button id="button">send</button>
+<button class="button">send</button>
 </body>
 </html>
 //created a textbox i need to make that box work... and brush it up
