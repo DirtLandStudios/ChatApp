@@ -5,7 +5,7 @@ var UserName: string = "";
 type ChatMessage = {message: string, user: string}
 const socket = new WebSocket(`wss://${Ip}:${Port}`, "ChatApp")
 var SendButton: HTMLElement | null = document.getElementById("SendButton")
-var textbox_toSend: HTMLInputElement | null = document.getElementById("mess") as HTMLInputElement
+var textbox_toSend: HTMLInputElement | null = document.getElementById("textbox_toSend") as HTMLInputElement
 // Connection opened
 socket.onopen = (event) => {
     socket.send(UserName)
@@ -16,6 +16,7 @@ function send_message(_message: string) {
     //Property 'value' does not exist on type 'HTMLElement'.
     var Chatmessage: ChatMessage = {message: _message, user: UserName}
     socket.send(JSON.stringify(Chatmessage))
+    alert(JSON.stringify(Chatmessage))
 }
 
 // Listen for messages
