@@ -5,8 +5,8 @@ const fs= require('fs');
 //TODO: ssl
 var server = https.createServer({
     cert: fs.readFileSync('../ssl/wss/certificate.crt'),
-    key: fs.readFileSync('../ssl/wss/private.pem'),
-    ca: fs.readFileSync('../ssl/wss/ca_bundle.crt')
+    key: fs.readFileSync('../ssl/wss/private.pem')//,
+    //ca: fs.readFileSync('../ssl/wss/ca_bundle.crt')
 });
 type ChatMessage = {message: string, user: string}
 const ChatPort = 8999;
@@ -27,6 +27,7 @@ wss.on('connection', (ws: any /*Need type!*/) => {
   
 });
 //TODO:FUCK ALL
+/*
 server.listen(ChatPort, function listening () {
     const ws = new WebSocket('wss://dt.example.com:58443', {
         rejectUnauthorized: false
@@ -36,3 +37,4 @@ server.listen(ChatPort, function listening () {
     });
 });
 //https://www.npmjs.com/package/ws#multiple-servers-sharing-a-single-https-server
+*/

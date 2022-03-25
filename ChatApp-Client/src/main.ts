@@ -9,7 +9,7 @@ var textbox_toSend: HTMLInputElement | null = document.getElementById("textbox_t
 var ChatHistory: HTMLUListElement | null = document.getElementById("ChatHistory") as HTMLUListElement
 // Connection opened
 socket.onopen = (event) => {
-    socket.send(UserName)
+    //socket.send(UserName)
 }
 
 function send_message(_message: string) {
