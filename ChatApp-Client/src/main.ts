@@ -29,6 +29,6 @@ socket.onmessage = (_message: MessageEvent) => {
 function End() {
     socket.close()
 }
-SendButton.addEventListener('click', () => {
-    send_message(textbox_toSend.value)
+SendButton!.addEventListener('click', () => {
+    send_message(textbox_toSend!.value)
 })
