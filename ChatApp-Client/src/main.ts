@@ -6,27 +6,26 @@ type ChatMessage = {message: string, user: string}
 const socket = new WebSocket(`wss://${Ip}:${Port}`, "ChatApp")
 var SendButton: HTMLElement | null = document.getElementById("SendButton")
 var textbox_toSend: HTMLInputElement | null = document.getElementById("textbox_toSend") as HTMLInputElement
+var ChatHistory: HTMLUListElement | null = document.getElementById("ChatHistory") as HTMLUListElement
 // Connection opened
 socket.onopen = (event) => {
     socket.send(UserName)
-};
+}
 
 function send_message(_message: string) {
-    //Object is possibly 'null'.
-    //Property 'value' does not exist on type 'HTMLElement'.
     var Chatmessage: ChatMessage = {message: _message, user: UserName}
     socket.send(JSON.stringify(Chatmessage))
-    alert(JSON.stringify(Chatmessage))
 }
-
-// Listen for messages
-socket.onmessage = (_message: MessageEvent) => {
+function get_message(_message: MessageEvent) {
     var incoming: ChatMessage = JSON.parse(_message.data)
-    var message: string = `${incoming.user}: ${incoming.user}`
-    //add this to chat history
-    //document.getElementById
+    var message: string = `${incoming.user}: ${incoming.message}`
+    var newLI = document.createElement("li")
+    newLI.appendChild(document.createTextNode(message))
+    ChatHistory!.appendChild(newLI)
 }
-//message form: {message, user}
+// Listen for messages
+socket.onmessage = get_message
+
 function End() {
     socket.close()
 }
