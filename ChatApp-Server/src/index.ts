@@ -1,5 +1,3 @@
-import WebSocket = require("ws");
-
 //const express = require('express')
 const ws = require('ws')
 const https = require('https')
@@ -8,15 +6,14 @@ var Chatserver = https.createServer({
     cert: fs.readFileSync('../ssl/wss/certificate.crt'),
     key: fs.readFileSync('../ssl/wss/private.pem')//,
     //ca: fs.readFileSync('../ssl/wss/ca_bundle.crt')
-});
+})
 type ChatMessage = {message: string, user: string}
-const ChatPort = 8999;
-const wss = new ws.WebSocketServer({server: Chatserver, handleProtocols: handleChatProtocols});
-wss.hand
+const ChatPort = 8999
+const wss = new ws.WebSocketServer({server: Chatserver, handleProtocols: handleChatProtocols})
 var Chat: ChatMessage[]
 var Chatters: any[] = []
-function handleChatProtocols() {
-
+function handleChatProtocols(protocols: any, request: any) {
+    
 }
 wss.on('connection', (ws: any) => {
     Chatters.push(ws)
