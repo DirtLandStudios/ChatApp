@@ -1,40 +1,35 @@
+import WebSocket = require("ws");
+
 //const express = require('express')
 const ws = require('ws')
 const https = require('https')
 const fs= require('fs');
-//TODO: ssl
-var server = https.createServer({
+var Chatserver = https.createServer({
     cert: fs.readFileSync('../ssl/wss/certificate.crt'),
     key: fs.readFileSync('../ssl/wss/private.pem')//,
     //ca: fs.readFileSync('../ssl/wss/ca_bundle.crt')
 });
 type ChatMessage = {message: string, user: string}
 const ChatPort = 8999;
-const wss = new ws.Server({server});
-var Users: string[]
+const wss = new ws.WebSocketServer({server: Chatserver, handleProtocols: handleChatProtocols});
+wss.hand
 var Chat: ChatMessage[]
+var Chatters: any[] = []
+function handleChatProtocols() {
 
-wss.on('connection', (ws: any /*Need type!*/) => {
-
+}
+wss.on('connection', (ws: any) => {
+    Chatters.push(ws)
 	ws.on('message', (data: string) => {
     	console.log('received: %s', data)
 		var message: ChatMessage = JSON.parse(data)
 		Chat.push( message )
-		wss.clients.ForEach((client: any /*Need type!*/) => {
+		Chatters.forEach((client: any /*Need type!*/) => {
 			client.send(message)
 		})
-	});
-  
+	})
+    ws.on('close', function() {
+        Chatters = Chatters.filter(s => s !== ws);
+      })
 });
-//TODO:FUCK ALL
-/*
-server.listen(ChatPort, function listening () {
-    const ws = new WebSocket('wss://dt.example.com:58443', {
-        rejectUnauthorized: false
-    });
-    ws.on('open', function open () {
-        ws.send('Workin baby');
-    });
-});
-//https://www.npmjs.com/package/ws#multiple-servers-sharing-a-single-https-server
-*/
+Chatserver.listen(ChatPort)
