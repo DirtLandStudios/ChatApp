@@ -3,13 +3,17 @@ var Ip: string = "localhost";
 var Port: string = "8999";
 var UserName: string = "";
 type ChatMessage = {message: string, user: string}
-const socket = new WebSocket(`wss://${Ip}:${Port}`, "ChatApp")
+
 var SendButton: HTMLElement | null = document.getElementById("SendButton")
 var textbox_toSend: HTMLInputElement | null = document.getElementById("textbox_toSend") as HTMLInputElement
 var ChatHistory: HTMLUListElement | null = document.getElementById("ChatHistory") as HTMLUListElement
 // Connection opened
+
+const socket = new WebSocket(`wss://${Ip}:${Port}`/* , "ChatApp" */)
+
 socket.onopen = (event) => {
     //socket.send(UserName)
+    alert("CONNECTED" + event)
 }
 
 function send_message(_message: string) {
