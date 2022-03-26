@@ -9,24 +9,22 @@ var Chatserver = https.createServer({
 })
 type ChatMessage = {message: string, user: string}
 const ChatPort = 8999
-const wss = new ws.WebSocketServer({server: Chatserver, handleProtocols: handleChatProtocols})
+const wss = new ws.WebSocketServer({clientTracking: true, server: Chatserver, handleProtocols: handleChatProtocols})
 var Chat: ChatMessage[]
-var Chatters: any[] = []
 function handleChatProtocols(protocols: any, request: any) {
-    
+
 }
-wss.on('connection', (ws: any) => {
-    Chatters.push(ws)
-	ws.on('message', (data: string) => {
-    	console.log('received: %s', data)
-		var message: ChatMessage = JSON.parse(data)
-		Chat.push( message )
-		Chatters.forEach((client: any /*Need type!*/) => {
-			client.send(message)
-		})
-	})
-    ws.on('close', function() {
-        Chatters = Chatters.filter(s => s !== ws);
-      })
-});
+/* 
+wss.on('connection', (ws: WebSocket, request: http.IncomingMessage) => {
+
+})
+ */
+wss.on('message', (data: string) => {
+    console.log('received: %s', data)
+    var message: ChatMessage = JSON.parse(data)
+    Chat.push( message )
+    wss.clients.forEach((client: any /*Need type!*/) => {
+        client.send(message)
+    })
+})
 Chatserver.listen(ChatPort)
