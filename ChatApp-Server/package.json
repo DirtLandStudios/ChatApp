@@ -4,7 +4,7 @@
   "description": "Websocket server for ChatApp",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server/index.js"
   },
   "author": "DirtLandStudios",
   "license": "MIT",
