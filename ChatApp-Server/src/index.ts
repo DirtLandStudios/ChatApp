@@ -2,15 +2,14 @@
 const { exec } = require("child_process")
 const ws = require('ws')
 const https = require('https')
-const fs = require('fs');
+const fs = require('fs')
 const readline = require('readline').createInterface({
     input: process.stdin,
     output: process.stdout
 })
 
-const KeyFile: string = process.env.KEY ?? "/config/ssl/wss.key"
-const CertFile: string = process.env.CERT ?? "/config/ssl/wss.crt"
-const SaveFile: string = process.env.SAVE_FILE ?? "/config/SaveChat.json"
+import {KeyFile, CertFile, SaveFile} from "./Files"
+
 type ChatMessage = {message: string, user: string}
 const ChatPort = 8000
 
@@ -34,16 +33,21 @@ wss.on('connection', (_ws: any) => {
     })    
 })
 
-
+Chatserver.listen(ChatPort, () => {
+    console.log("Server listening on " + ChatPort)
+})
 readline.on('line', (input: string) => {
     switch (input) {
         case "help":
             console.log("start, save, stop, cmd")
             break
         case "start":
-            Chatserver.listen(ChatPort, () => {
-                console.log("Server listening on " + ChatPort)
-            })
+            if (!Chatserver.listening) {
+                Chatserver.listen(ChatPort, () => {
+                    console.log("Server listening on " + ChatPort)
+                })
+            }
+
             break
         case "save":
             fs.writeFileSync(SaveFile, JSON.stringify(Chat))
