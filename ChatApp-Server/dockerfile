@@ -1,8 +1,8 @@
 FROM node:16
 WORKDIR /usr/src/app
 COPY package*.json ./
-RUN npm install
-COPY server/ ./
+COPY server/ ./server
 #CHATAPP PORT
-EXPOSE 8999
+EXPOSE 8000
+RUN npm install
 CMD [ "node", "index.js" ]
