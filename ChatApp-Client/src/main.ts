@@ -1,38 +1,28 @@
-// Create WebSocket connection.
-var Ip: string = "localhost";
-var Port: string = "8999";
-var UserName: string = "";
-type ChatMessage = {message: string, user: string}
-
 var SendButton: HTMLElement | null = document.getElementById("SendButton")
 var textbox_toSend: HTMLInputElement | null = document.getElementById("textbox_toSend") as HTMLInputElement
 var ChatHistory: HTMLUListElement | null = document.getElementById("ChatHistory") as HTMLUListElement
-// Connection opened
 
-const socket = new WebSocket(`wss://${Ip}:${Port}`/* , "ChatApp" */)
+var Ip: string = "localhost";
+var Port: string = "8000";
+var UserName: string = "";
+type ChatMessage = {message: string, user: string}
 
-socket.onopen = (event) => {
-    //socket.send(UserName)
-    alert("CONNECTED" + event)
+const socket = new WebSocket(`wss://${Ip}:${Port}`)
+
+socket.onmessage = function get_message(_message: MessageEvent) {
+    _message.data.text().then((text: string) => {
+        console.log(text)
+        var incoming: ChatMessage = JSON.parse(text)
+        var message: string = `${incoming.user}: ${incoming.message}`
+        var newLI = document.createElement("li")
+        newLI.appendChild(document.createTextNode(message))
+        ChatHistory!.appendChild(newLI)
+    })
 }
 
-function send_message(_message: string) {
-    var Chatmessage: ChatMessage = {message: _message, user: UserName}
-    socket.send(JSON.stringify(Chatmessage))
-}
-function get_message(_message: MessageEvent) {
-    var incoming: ChatMessage = JSON.parse(_message.data)
-    var message: string = `${incoming.user}: ${incoming.message}`
-    var newLI = document.createElement("li")
-    newLI.appendChild(document.createTextNode(message))
-    ChatHistory!.appendChild(newLI)
-}
-// Listen for messages
-socket.onmessage = get_message
-
-function End() {
-    socket.close()
-}
 SendButton!.addEventListener('click', () => {
-    send_message(textbox_toSend!.value)
+    console.log("mesage to send " + textbox_toSend!.value)
+    var Chatmessage: ChatMessage = {message: textbox_toSend!.value, user: UserName}
+    socket.send(JSON.stringify(Chatmessage))
+    
 })
