@@ -2,7 +2,9 @@ FROM node:16
 WORKDIR /usr/src/app
 COPY package*.json ./
 COPY server/ ./server
+COPY create-ssl.sh /config
 #CHATAPP PORT
 EXPOSE 8000
 RUN npm install
+RUN ./config/create-ssl.sh
 CMD [ "node", "index.js" ]
