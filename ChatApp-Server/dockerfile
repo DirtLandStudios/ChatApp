@@ -3,9 +3,10 @@ RUN mkdir /Chatapp
 WORKDIR /Chatapp
 RUN useradd -d /Chatapp -M -g 1000 ChatAppDockerUser
 RUN chown :1000 /Chatapp
-COPY package*.json ./
+COPY package.json ./
+COPY yarn.lock ./
 COPY server/ ./server
 #CHATAPP PORT
 EXPOSE 8000
-RUN npm install
-CMD [ "node", "server/index.js" ]
+RUN yarn
+CMD [ "node", "server/client.js" ]
