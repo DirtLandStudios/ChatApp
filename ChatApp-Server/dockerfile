@@ -1,10 +1,11 @@
 FROM node:16
-WORKDIR /usr/src/app
+RUN mkdir /Chatapp
+WORKDIR /Chatapp
+RUN useradd -d /Chatapp -M -g 1000 ChatAppDockerUser
+RUN chown :1000 /Chatapp
 COPY package*.json ./
 COPY server/ ./server
-COPY start.sh ./
 #CHATAPP PORT
 EXPOSE 8000
-RUN chmod a+x start.sh
 RUN npm install
-CMD [ "./start.sh" ]
+CMD [ "node", "server/index.js" ]

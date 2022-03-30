@@ -1,3 +1,4 @@
-if (process.env.CREATE_SSL != "false") {
-	
-}
+const { exec } = require("child_process")
+
+
+exec("./index.js")
