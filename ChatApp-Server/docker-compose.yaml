@@ -1,0 +1,14 @@
+version: '3'
+services:
+  chatapp:
+    build: .
+    container_name: ChatApp
+    #environment:
+    #  - CREATE_SSL="true"
+    #   - SAVE_FILE=/config/SaveChat.json
+    #   - CERT=/config/ssl/wss.crt
+    #   - KEY=/config/ssl/wss.key
+    volumes:
+      - ./config:/config
+    ports:
+      - 8000:8000

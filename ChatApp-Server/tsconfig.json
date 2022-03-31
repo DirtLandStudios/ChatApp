@@ -2,7 +2,8 @@
 	"compilerOptions": {
 		"target": "es6",
 		"module": "commonjs",
-		"outDir": "./server",
+		"outDir": "server/",
+		"rootDir": "src/",
 		"strict": true,
 		"sourceMap": true,
 		"typeRoots": [
@@ -10,6 +11,7 @@
 		]
 	},
 	"exclude": [
+		"src/unused",
 		"dist",
 		"node_modules"
 	]
