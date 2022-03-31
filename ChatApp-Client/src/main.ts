@@ -1,9 +1,11 @@
 var SendButton: HTMLElement | null = document.getElementById("SendButton")
+var UserButton: HTMLElement | null = document.getElementById("UsernameButton")
 var textbox_toSend: HTMLInputElement | null = document.getElementById("textbox_toSend") as HTMLInputElement
+var TextboxUsername: HTMLInputElement | null = document.getElementById("TextboxUsername") as HTMLInputElement
 var ChatHistory: HTMLUListElement | null = document.getElementById("ChatHistory") as HTMLUListElement
 
 var Ip: string = "localhost";
-var Port: string = "8000";
+var Port: string = "8000/WSChat";
 var UserName: string = "";
 type ChatMessage = {message: string, user: string}
 
@@ -19,6 +21,10 @@ socket.onmessage = function get_message(_message: MessageEvent) {
         ChatHistory!.appendChild(newLI)
     })
 }
+
+UserButton!.addEventListener("click", () => {
+    UserName = TextboxUsername!.value
+})
 
 SendButton!.addEventListener('click', () => {
     console.log("mesage to send " + textbox_toSend!.value)
