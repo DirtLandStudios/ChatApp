@@ -8,16 +8,15 @@ const readline = require('readline').createInterface({
     output: process.stdout
 })
 
-import {SaveFile} from "./Variables"
+import {SaveFile, ChatPort} from "../Variables"
 
 type ChatMessage = {message: string, user: string}
-const ChatPort = 8000
 const {publicKey, privateKey} = require("certification").GetKeys()
 var ChatServerOptions = {cert: publicKey, key: privateKey}
 
 var Chatserver = https.createServer(ChatServerOptions)
 
-const wss = new ws.WebSocketServer({clientTracking: true, server: Chatserver})
+const wss = new ws.WebSocketServer({clientTracking: true, noServer: true, path: "/WSChat"})
 var Chat: ChatMessage[] = [{message: "start", user: "server"}] //doesn't work without init for some f*cking reason
 
 wss.on('connection', (_ws: any) => {

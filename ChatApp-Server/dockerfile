@@ -9,4 +9,4 @@ COPY server/ ./server
 #CHATAPP PORT
 EXPOSE 8000
 RUN yarn
-CMD [ "node", "server/client.js" ]
+CMD [ "yarn", "run", "start" ]
