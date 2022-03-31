@@ -8,51 +8,11 @@ const readline = require('readline').createInterface({
     output: process.stdout
 })
 
-import {KeyFile, CertFile, SaveFile} from "./Files"
+import {SaveFile} from "./Variables"
 
 type ChatMessage = {message: string, user: string}
 const ChatPort = 8000
-
-var publicKey: string | any
-var privateKey: string | any
-
-//todo: key creation
-/* 
-if (!fs.existsSync(KeyFile) || !fs.existsSync(CertFile)) {
-	if (process.env.CREATE_SSL != "false") {
-        console.log("Cretaing keys...")
-        if (!fs.existsSync(fs.realPathSync(KeyFile)))  fs.mkdirSync("/config/ssl", { recursive: true })
-        //create empty files
-        exec(`touch ${KeyFile}`)
-        exec(`touch ${CertFile}`)
-        console.log("creating key..")
-        var command: string = `openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out ${CertFile} -keyout ${KeyFile} -subj "/C=SI/ST=Ljubljana/L=Ljubljana/O=Security/OU=IT Department/CN=www.example.com"`
-        console.log(command)
-        exec(command)
-    }
-    else {
-        type Keys = {public: any, private: any}
-        var KeyPair: Keys = require('crypto').generateKeyPairSync('rsa', {
-            modulusLength: 4096,
-            publicKeyEncoding: {
-              type: 'spki',
-              format: 'pem'
-            },
-            privateKeyEncoding: {
-              type: 'pkcs8',
-              format: 'pem',
-              cipher: 'aes-256-cbc',
-              passphrase: 'top secret'
-            }
-        })
-        privateKey = KeyPair.private
-        publicKey = KeyPair.public
-    }
-}
-*/
-privateKey ??= fs.readFileSync(KeyFile)
-publicKey ??= fs.readFileSync(CertFile)
-
+const {publicKey, privateKey} = require("certification").GetKeys()
 var ChatServerOptions = {cert: publicKey, key: privateKey}
 
 var Chatserver = https.createServer(ChatServerOptions)
