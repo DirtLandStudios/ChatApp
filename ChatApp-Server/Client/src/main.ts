@@ -4,8 +4,8 @@ var textbox_toSend: HTMLInputElement | null = document.getElementById("textbox_t
 var TextboxUsername: HTMLInputElement | null = document.getElementById("TextboxUsername") as HTMLInputElement
 var ChatHistory: HTMLUListElement | null = document.getElementById("ChatHistory") as HTMLUListElement
 
-var Ip: string = "localhost";
-var Port: string = "8000/WSChat";
+var Ip: string = "127.0.0.1";
+var Port: string = "8001";
 var UserName: string = "";
 type ChatMessage = {message: string, user: string}
 

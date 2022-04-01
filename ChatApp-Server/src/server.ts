@@ -5,15 +5,15 @@ var https = require('https')
 const ws = require('ws')
 
 
-import {SaveFile, ChatPort} from "./Variables"
+import {SaveFile, ChatPort, WsPort} from "./Variables"
 const {publicKey, privateKey} = require("./certification").GetKeys()
 var credentials = {key: privateKey, cert: publicKey}
 const app = express()
 
 type ChatMessage = {message: string, user: string}
 var Chat: ChatMessage[] = [{message: "start", user: "server"}] //doesn't work without init for some f*cking reason
-
-var wss = new ws.WebSocketServer({clientTracking: true, noServer: true, path: "/WSChat"})
+var Ws_Server = https.createServer(credentials)
+var wss = new ws.WebSocketServer({clientTracking: true, server: Ws_Server})
 wss.on('connection', (_ws: any) => {
     //console.log("connected: " + ws)
     _ws.on('message', (data: string) => {
@@ -25,26 +25,29 @@ wss.on('connection', (_ws: any) => {
         })
     })    
 })
-
+Ws_Server.listen(WsPort, "0.0.0.0")
 //upgrade to websocket
-app.on("upgrade", (request: Request, socket: WebSocket, head: Headers) => {
+/* app.on("upgrade", (request: Request, socket: WebSocket, head: Headers) => {
+	console.log("upgrading to WS")
 	wss.handleUpgrade(request, socket, head, () => {
 		wss.emit("connection", socket, request)
 	})
-})
+}) */
 
-app.all('/ChatApp', (req: Request, res: Response, next: NextFunction) => {
-	res.send("Connected")
-	//res.render("/ChatApp/Client/client.html")
+app.use(express.static("/Chatapp/Client/"))
+
+/* app.all('/ChatApp', (req: Request, res: Response, next: NextFunction) => {
+	//res.send("Connected")
+	express.static("/ChatApp/Client/html/client.html")
 	next() // pass control to the next handler
-})
+}) */
 app.all('/ChatAdmin', (req: Request, res: Response, next: NextFunction) => {
 	res.send("Connected Admin")
 	//res.render("/ChatApp/Client/admin.html")
 	next() // pass control to the next handler
 })
 app.all("/", (req: Request, res: Response, next: NextFunction) => {
-	res.redirect("/ChatApp")
+	res.redirect("/ChatApp/client.html")
 	next()
 })
 

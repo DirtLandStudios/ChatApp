@@ -4,6 +4,7 @@
   "description": "Websocket server for ChatApp",
   "main": "index.js",
   "scripts": {
+    "c":"tsc && tsc -p ./Client/tsconfig.json && docker-compose up --build",
     "start": "node server/server.js"
   },
   "author": "DirtLandStudios",

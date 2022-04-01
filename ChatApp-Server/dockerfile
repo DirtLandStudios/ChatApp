@@ -3,12 +3,13 @@ RUN mkdir /Chatapp
 WORKDIR /Chatapp
 RUN useradd -d /Chatapp -M -g 1000 ChatAppDockerUser
 RUN chown :1000 /Chatapp
-COPY ../ChatApp-Client/html server/Client/
-COPY ../ChatApp-Client/JS server/Client/JS/
+COPY Client /Chatapp/Client/
 COPY package.json ./
 COPY yarn.lock ./
 COPY server/ ./server
-#CHATAPP PORT
+#express port
 EXPOSE 8000
+#Websocket chat port
+EXPOSE 8001
 RUN yarn
 CMD [ "yarn", "run", "start" ]
